@@ -5,10 +5,6 @@ import uuid
 from langchain.prompts import PromptTemplate
 from langchain.text_splitter import NLTKTextSplitter
 from loguru import logger
-from omegaconf import DictConfig
-from qdrant_client import QdrantClient
-
-from ollama_rag.utils.configuration import load_config
 
 
 def combine_text_from_list(input_list: list) -> str:
@@ -107,7 +103,6 @@ def get_token(token: str | None, llm_backend: str | None, aleph_alpha_key: str |
         raise ValueError("No token provided.")  #
 
     return token or env_token  # type: ignore
-
 
 
 def split_text(text: str, splitter: NLTKTextSplitter):

@@ -1,11 +1,14 @@
+"""Vectordatabase Utlilty Functions."""
 import os
+
+from dotenv import load_dotenv
 from langchain.embeddings import OllamaEmbeddings
 from langchain.vectorstores import Qdrant
 from loguru import logger
 from omegaconf import DictConfig
 from qdrant_client import QdrantClient, models
+
 from ollama_rag.utils.configuration import load_config
-from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -21,9 +24,7 @@ def get_db_connection(cfg: DictConfig, collection_name: str) -> Qdrant:
     Returns:
         Qdrant: The Qdrant DB connection.
     """
-    embedding = OllamaEmbeddings(
-        base_url=cfg.ollama_embeddings.url, model=cfg.ollama_embeddings.model
-    )
+    embedding = OllamaEmbeddings(base_url=cfg.ollama_embeddings.url, model=cfg.ollama_embeddings.model)
     qdrant_client = QdrantClient(
         cfg.qdrant.url,
         port=cfg.qdrant.port,
@@ -32,15 +33,13 @@ def get_db_connection(cfg: DictConfig, collection_name: str) -> Qdrant:
     )
     if collection_name is None or collection_name == "":
         collection_name = cfg.qdrant.collection_name_ollama
-    vector_db = Qdrant(
-        client=qdrant_client, collection_name=collection_name, embeddings=embedding
-    )
+    vector_db = Qdrant(client=qdrant_client, collection_name=collection_name, embeddings=embedding)
     logger.info("SUCCESS: Qdrant DB initialized.")
 
     return vector_db
 
 
-@load_config(location="config/db.yml")
+@load_config(location="config/main.yml")
 def initialize_qdrant_client_config(cfg: DictConfig):
     """Initialize the Qdrant Client.
 
@@ -69,9 +68,7 @@ def initialize_ollama_vector_db() -> None:
 
     try:
         qdrant_client.get_collection(collection_name="ollama")
-        logger.info(
-            f"SUCCESS: Collection {cfg.qdrant.collection_name_gpt4all} already exists."
-        )
+        logger.info(f"SUCCESS: Collection {cfg.qdrant.collection_name_gpt4all} already exists.")
     except Exception:
         generate_collection_ollama(qdrant_client, collection_name="ollama")
 
