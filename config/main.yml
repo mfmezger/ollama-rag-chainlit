@@ -1,0 +1,25 @@
+qdrant:
+  url: http://qdrant
+  # url: http://localhost
+  port: 6333
+  prefer_grpc: false
+  collection_name_aa: aleph_alpha
+  collection_name_gpt4all: gpt4all
+  collection_name_openai: openai
+  collection_name_ollama: ollama
+
+aleph_alpha_embeddings:
+  normalize: True
+  size: 5120
+  compress_to_size: null
+  model_name: "luminous-base-control"
+
+
+ollama_embeddings:
+  url: "http://localhost:11434"
+  model: zephyr
+
+
+ollama:
+  model: zephyr
+  url: "http://localhost:11434"
