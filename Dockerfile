@@ -8,12 +8,13 @@ RUN curl -sSL https://install.python-poetry.org/ | POETRY_HOME=/opt/poetry pytho
     poetry config virtualenvs.create false
 
 # Copy using poetry.lock* in case it doesn't exist yet
-COPY ./pyproject.toml ./poetry.lock* ./
+# COPY ./pyproject.toml ./poetry.lock* ./
+COPY . .
 
 RUN poetry install --no-root --no-dev
 
-COPY . .
 
 ENTRYPOINT ["poetry", "run", "chainlit", "run", "-h",  "ollama_rag/app.py"]
+# ENTRYPOINT ["chainlit", "run", "-h",  "ollama_rag/app.py"]
 # watch the logs
 # CMD ["tail", "-f", "/dev/null"]

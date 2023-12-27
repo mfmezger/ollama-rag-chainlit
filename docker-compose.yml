@@ -1,9 +1,10 @@
 services:
-  agent:
+  ollama-agent:
     build: .
     volumes:
       - ./data:/data
       - ./logs:/logs
+      - ./vector_db:/vector_db
     depends_on:
       - qdrant
     ports:

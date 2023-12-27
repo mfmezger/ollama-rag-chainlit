@@ -67,10 +67,10 @@ def initialize_ollama_vector_db() -> None:
     qdrant_client, cfg = initialize_qdrant_client_config()
 
     try:
-        qdrant_client.get_collection(collection_name="ollama")
-        logger.info(f"SUCCESS: Collection {cfg.qdrant.collection_name_gpt4all} already exists.")
+        qdrant_client.get_collection(collection_name=cfg.qdrant.collection_name_ollama)
+        logger.info(f"SUCCESS: Collection {cfg.qdrant.collection_name_ollama} already exists.")
     except Exception:
-        generate_collection_ollama(qdrant_client, collection_name="ollama")
+        generate_collection_ollama(qdrant_client, collection_name=cfg.qdrant.collection_name_ollama)
 
 
 def generate_collection_ollama(qdrant_client, collection_name):
