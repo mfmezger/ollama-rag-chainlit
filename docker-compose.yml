@@ -5,6 +5,7 @@ services:
       - ./data:/data
       - ./logs:/logs
       - ./vector_db:/vector_db
+      - ./ollama_rag:/ollama_rag
     depends_on:
       - qdrant
     ports:

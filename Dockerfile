@@ -11,7 +11,7 @@ RUN curl -sSL https://install.python-poetry.org/ | POETRY_HOME=/opt/poetry pytho
 # COPY ./pyproject.toml ./poetry.lock* ./
 COPY . .
 
-RUN poetry install --no-root --no-dev
+RUN poetry install
 
 
 ENTRYPOINT ["poetry", "run", "chainlit", "run", "-h",  "ollama_rag/app.py"]

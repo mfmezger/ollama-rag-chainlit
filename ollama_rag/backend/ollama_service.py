@@ -10,9 +10,10 @@ from langchain.vectorstores import Qdrant
 from loguru import logger
 from omegaconf import DictConfig
 from qdrant_client import QdrantClient
-
+import nltk
 from ollama_rag.utils.configuration import load_config
 
+nltk.download('punkt')
 load_dotenv()
 
 
