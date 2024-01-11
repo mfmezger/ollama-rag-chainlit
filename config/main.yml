@@ -6,12 +6,11 @@ qdrant:
   collection_name_ollama: ollama
 
 ollama_embeddings:
-  # url: "http://localhost:11434" # if not using docker
-  url: "http://host.docker.internal:11434" # if using docker
+  url: "http://localhost:11434" # if not using docker
+  #  url: "http://host.docker.internal:11434" # if using docker
   model: zephyr
 
-
 ollama:
-  # url: "http://localhost:11434" # if not using docker
-  url: "http://host.docker.internal:11434" # if using docker
+  url: "http://localhost:11434" # if not using docker
+  #url: "http://host.docker.internal:11434" # if using docker
   model: zephyr
