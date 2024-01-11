@@ -21,11 +21,13 @@ from ollama_rag.utils.utility import create_tmp_folder
 from ollama_rag.utils.vdb import get_db_connection, initialize_ollama_vector_db
 
 load_dotenv()
-
+os.environ["LANGCHAIN_TRACING"] = "false"
+os.environ["LANGCHAIN_HANDLER"] = "langchain"
 # make sure the qdrant collection exists
 initialize_ollama_vector_db()
 
 ollama_service = OllamaService(collection_name="ollama")
+input_path = "input/"
 
 
 @app.post("/embeddings/documents")
@@ -120,36 +122,33 @@ async def main(message):
     cb.answer_reached = True
 
     # use pathlib to check if the folder input exists if not create it
-
     Path("input").mkdir(parents=True, exist_ok=True)
 
     # save all of the message elements as pdf files with uuids
     for element in message.elements:
-        with open(f"input/{uuid4()}.pdf", "wb") as f:
+        with open(f"{input_path}{uuid4()}.pdf", "wb") as f:
             f.write(element.content)
 
     from ollama_rag.backend.ollama_service import OllamaService
 
     ollama_service = OllamaService(collection_name="ollama")
 
-    ollama_service.embedd_documents(dir="input/")
+    # only if the input folder is not empty embedd the documents
+    if os.listdir(input_path):
+        ollama_service.embedd_documents(dir="input/")
 
-    # delete all of the files in the input folder
-    import os
-
-    folder = "input/"
-
-    for filename in os.listdir(folder):
-        os.remove(os.path.join(folder, filename))
+        # delete all of the files in the input folder
+        for filename in os.listdir(input_path):
+            os.remove(os.path.join(input_path, filename))
 
     res = await chain.acall(message.content, callbacks=[cb])
     print(f"response: {res}")
-    answer = res["result"]
+    answer: str = res["result"]
     answer = answer.replace(".", ".\n")
-    sources = res["source_documents"]
+    sources: str = str(res["source_documents"])
 
     if sources:
-        answer += f"\nSources: {str(str(sources))}"
+        answer += f"\nSources: {str(sources)}"
     else:
         answer += "\nNo Sources found"
 

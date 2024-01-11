@@ -1,6 +1,7 @@
 """Ollama Backend Service."""
 import os
 
+import nltk
 from dotenv import load_dotenv
 from langchain.document_loaders import DirectoryLoader, PyPDFLoader
 from langchain.embeddings import OllamaEmbeddings
@@ -10,10 +11,10 @@ from langchain.vectorstores import Qdrant
 from loguru import logger
 from omegaconf import DictConfig
 from qdrant_client import QdrantClient
-import nltk
+
 from ollama_rag.utils.configuration import load_config
 
-nltk.download('punkt')
+nltk.download("punkt")
 load_dotenv()
 
 
@@ -44,7 +45,7 @@ class OllamaService:
         loader = DirectoryLoader(dir, glob="*.pdf", loader_cls=PyPDFLoader)
         splitter = NLTKTextSplitter(chunk_size=500, chunk_overlap=100)
         docs = loader.load_and_split(splitter)
-        logger.info(f"Loaded {len(docs)} documents.")
+        logger.info(f"Starting to Embedding {len(docs)} documents.")
         texts = [doc.page_content for doc in docs]
         metadatas = [doc.metadata for doc in docs]
         self.vector_db.add_texts(texts=texts, metadatas=metadatas)

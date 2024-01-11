@@ -29,6 +29,8 @@ docker compose up qdrant -d
 poetry run chainlit run -w  ollama_rag/app.py
 ```
 
+(If you do not want to use poetry install with pip install -r requirements.txt)
+
 You can upload your own pdfs in the web interface. They will then be loaded in the Qdrant Vectordatabase.
 
 The webinterface is available at: http://localhost:8000

@@ -5,20 +5,13 @@ qdrant:
   prefer_grpc: false
   collection_name_ollama: ollama
 
-aleph_alpha_embeddings:
-  normalize: True
-  size: 5120
-  compress_to_size: null
-  model_name: "luminous-base-control"
-
-
 ollama_embeddings:
-  url: "http://localhost:11434" # if not using docker
-  # url: "http://host.docker.internal:11434" # if using docker
+  # url: "http://localhost:11434" # if not using docker
+  url: "http://host.docker.internal:11434" # if using docker
   model: zephyr
 
 
 ollama:
+  # url: "http://localhost:11434" # if not using docker
+  url: "http://host.docker.internal:11434" # if using docker
   model: zephyr
-  url: "http://localhost:11434" # if not using docker
-  # url: "http://host.docker.internal:11434" # if using docker
