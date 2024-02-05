@@ -1,0 +1,3 @@
+taipy
+ultra-simple-config
+loguru
